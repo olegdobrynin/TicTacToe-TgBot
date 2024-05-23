@@ -23,7 +23,7 @@ Follow these steps to install and run the bot on a Linux server.
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/olegdobrynin/tictactoe-tgbot.git
-    cd telegram-tictactoe-bot
+    cd tictactoe-tgbot
     ```
 
 2. **Create and activate a virtual environment:**
@@ -54,3 +54,61 @@ Follow these steps to install and run the bot on a Linux server.
 
 ## Project Structure
 
+tictactoe-tgbot/
+├── main.py
+├── handlers.py
+├── game_logic.py
+├── keyboards.py
+├── user_data.py
+├── database.py
+├── config.py
+├── requirements.txt
+└── .env
+
+
+### `main.py`
+- Entry point of the bot application.
+
+### `handlers.py`
+- Contains all the command and callback query handlers.
+
+### `game_logic.py`
+- Contains the game logic for Tic-Tac-Toe.
+
+### `keyboards.py`
+- Contains the functions to create various keyboards used in the bot.
+
+### `database.py`
+- Manages the database operations for user data.
+
+### `config.py`
+- Loads the environment variables.
+
+### `requirements.txt`
+- Lists all the dependencies required by the project.
+
+### `.env`
+- Stores the environment variables (e.g., bot token).
+
+## Usage
+
+### Registering a User
+1. Send `/register` to the bot.
+2. Enter your name when prompted.
+
+### Viewing Profile
+- Click the "ПРОФИЛЬ" button to view your profile information, including your name and rating.
+
+### Playing the Game
+- Click the "ИГРАТЬ" button to start a new game of Tic-Tac-Toe with the bot.
+
+### Changing Name
+1. Send `/change_name` to the bot.
+2. Enter your new name when prompted.
+
+### Viewing Rating
+- Send `/rating` to view your current rating.
+
+## Contributing
+
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
