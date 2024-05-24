@@ -55,15 +55,17 @@ Follow these steps to install and run the bot on a Linux server.
 ## Project Structure
 
 tictactoe-tgbot/
-├── main.py
-├── handlers.py
-├── game_logic.py
-├── keyboards.py
-├── user_data.py
-├── database.py
 ├── config.py
+├── game_logic.py
+├── handlers.py
+├── keyboards.py
+├── main.py
 ├── requirements.txt
-└── .env
+├── user_data.py
+├── user_data.json
+├── .env
+└── README.md
+
 
 
 ### `main.py`
