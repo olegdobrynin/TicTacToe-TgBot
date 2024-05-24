@@ -2,7 +2,7 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, MessageHandler, filters, CallbackQueryHandler
 from game_logic import init_board, check_winner, create_inline_keyboard, bot_move, board_to_str
 from keyboards import create_register_button, create_profile_play_buttons
-from user_data import update_user_data, get_user_data, user_data
+from user_data import update_user_data, get_user_data, load_user_data
 
 REGISTER_NAME = range(1)
 
@@ -56,8 +56,9 @@ async def end_game(update: Update, context: CallbackContext, winner):
 # Начало новой игры
 async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
+    user_data = load_user_data()
 
-    if user_id not in user_data:
+    if str(user_id) not in user_data:
         await update.message.reply_text("Вы не зарегистрированы. Введите /register для регистрации.")
         return
 
@@ -74,8 +75,9 @@ async def profile_callback(update: Update, context: CallbackContext):
 # Обработка нажатия на кнопку "ИГРАТЬ"
 async def play_callback(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
+    user_data = load_user_data()
 
-    if user_id not in user_data:
+    if str(user_id) not in user_data:
         await update.message.reply_text("Вы не зарегистрированы. Введите /register для регистрации.")
         return
 
@@ -85,7 +87,9 @@ async def play_callback(update: Update, context: CallbackContext):
 # Регистрация нового пользователя
 async def register(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
-    if user_id in user_data:
+    user_data = load_user_data()
+
+    if str(user_id) in user_data:
         await update.message.reply_text("Вы уже зарегистрированы.", reply_markup=create_profile_play_buttons())
         return
 
@@ -96,6 +100,12 @@ async def register(update: Update, context: CallbackContext):
 async def register_name(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
     name = update.message.text
+    user_data = load_user_data()
+
+    if str(user_id) in user_data:
+        await update.message.reply_text("Вы уже зарегистрированы.", reply_markup=create_profile_play_buttons())
+        return
+
     update_user_data(user_id, 'name', name)
     update_user_data(user_id, 'rating', 0)
     await update.message.reply_text("Регистрация успешна!", reply_markup=create_profile_play_buttons())
@@ -104,7 +114,9 @@ async def register_name(update: Update, context: CallbackContext):
 # Изменение имени
 async def change_name(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
-    if user_id not in user_data:
+    user_data = load_user_data()
+
+    if str(user_id) not in user_data:
         await update.message.reply_text("Вы не зарегистрированы. Введите /register для регистрации.")
         return
 
@@ -122,7 +134,8 @@ async def change_name_save(update: Update, context: CallbackContext):
 # Проверка рейтинга
 async def rating(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
-    if user_id in user_data:
+
+    if str(user_id) in load_user_data():
         rating = get_user_data(user_id, 'rating')
         await update.message.reply_text(f"Ваш текущий рейтинг: {rating}")
     else:
